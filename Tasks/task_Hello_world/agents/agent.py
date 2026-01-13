@@ -8,7 +8,7 @@ def run_command(command):
 
 def main():
     
-    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch hello.py && echo "print(\'Hello, world!\')" > hello.py'
+    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch hello.py && echo "print(\'Hellly, world!\')" > hello.py'
     run_command(command)
     command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch result.txt && python hello.py > result.txt'
     run_command(command)
