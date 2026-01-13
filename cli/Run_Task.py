@@ -15,7 +15,6 @@ def run_task(task_name, **kwargs):
     kwargs['run_id']=run_id
     task_module = __import__(f'{task_name}.main', fromlist=['main'])
     task_module.main(task_name, **kwargs)
-    click.echo(f'RUN ID: {run_id}')
-    return run_id
+    return {"run_id": run_id, "status": kwargs.get('status', 'unknown')}
 if __name__ == '__main__':
     run_task()

@@ -17,15 +17,19 @@ def main(task_name,**kwargs):
     command = f'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/{task_name}/agents && python agent.py'
     run_command(command)
     status = "verification_pending"
+    kwargs['status'] = status
     command = f'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/{task_name}/tests && python test1.py'
     run_command(command)
     status = "test1_passed"
+    kwargs['status'] = status
     command = f'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/{task_name}/tests && python test2.py'
     run_command(command)
     status = "test2_passed"
+    kwargs['status'] = status
     command = f'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/{task_name}/tests && python test3.py'
     run_command(command)
     status = "Successfully Completed"
+    kwargs['status'] = status
     return status
 
 
