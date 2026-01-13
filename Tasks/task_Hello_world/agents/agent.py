@@ -7,9 +7,10 @@ def run_command(command):
     return result.stdout.strip(), result.stderr.strip()
 
 def main():
-    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/Hello-world && touch hello.py && echo "print(\'Hello, world!\')" > hello.py'
+    
+    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch hello.py && echo "print(\'Hello, world!\')" > hello.py'
     run_command(command)
-    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/Hello-world && python hello.py'
+    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch result.txt && python hello.py > result.txt'
     run_command(command)
 
 if __name__ == "__main__":
