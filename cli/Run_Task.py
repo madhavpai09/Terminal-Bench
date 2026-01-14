@@ -3,7 +3,16 @@ import sys
 from pathlib import Path
 import uuid
 sys.path.insert(0, str(Path(__file__).parent.parent / "Tasks"))
-import uuid
+
+
+def return_status(task_name, **kwargs):
+    run_id = str(uuid.uuid4())
+    kwargs['run_id'] = run_id
+    task_module = __import__(f'{task_name}.main', fromlist=['main'])
+    status = task_module.main(task_name, **kwargs)
+    if not status:
+        status = kwargs.get('status', 'unknown')
+    return {"run_id": run_id, "status": status}
 
 
 @click.command("run_task")
@@ -11,10 +20,10 @@ import uuid
 
 
 def run_task(task_name, **kwargs):
-    run_id=str(uuid.uuid4())
-    kwargs['run_id']=run_id
-    task_module = __import__(f'{task_name}.main', fromlist=['main'])
-    task_module.main(task_name, **kwargs)
-    return {"run_id": run_id, "status": kwargs.get('status', 'unknown')}
+    res = return_status(task_name, **kwargs)
+    click.echo(f"Run ID: {res['run_id']}")
+    click.echo(f"Status: {res['status']}")
+
+
 if __name__ == '__main__':
     run_task()

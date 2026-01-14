@@ -9,5 +9,6 @@ import click # type: ignore
 def invoke(task_name):
     main(task_name)
 
+
 if __name__ == '__main__':
     invoke()
