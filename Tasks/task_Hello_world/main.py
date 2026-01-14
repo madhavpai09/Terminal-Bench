@@ -1,6 +1,8 @@
 import subprocess
 import uuid
-
+import os
+import logging
+from typing import Optional
 
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -8,7 +10,8 @@ def run_command(command):
     return result.stdout.strip(), result.stderr.strip() 
 
 
-def main(task_name,**kwargs): 
+def main(task_name, **kwargs): 
+    init_logger
     run_id = kwargs.get('run_id', 'no-id')
     
     print(f"Task: {task_name}")
@@ -31,6 +34,19 @@ def main(task_name,**kwargs):
     status = "Successfully Completed"
     kwargs['status'] = status
     return status
+
+def init_logger(task_name: str, log_level: Optional[int]=logging.INFO):
+        logging.basicConfig(
+            level=log_level,
+            filename=os.path.join(
+                 os.getcwd(), 
+                 "Tasks", 
+                 task_name, 
+                 f"{task_name}.log"),
+                 filemode='w', 
+                 format='%(asctime)s - %(' \
+                 'levelname)s - %(message)s'
+        )
 
 
 if __name__ == "__main__":
