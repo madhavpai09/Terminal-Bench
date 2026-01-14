@@ -1,11 +1,14 @@
 import logging
 import os
 
+
 def main():
     task_name = input("Task Name:")
     logging.basicConfig(level=logging.INFO,filename=os.path.join(os.getcwd(), "Tasks", task_name, "results", f"{task_name}.log"),filemode='w', format='%(asctime)s - %(levelname)s - %(message)s')
  
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger(task_name)
+    
+    return logger
     
 
 if __name__ == "__main__":

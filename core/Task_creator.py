@@ -11,3 +11,5 @@ def main(task_name):
     run_command(command)
 
 
+if __name__ == "__main__":
+    main(task_name)    

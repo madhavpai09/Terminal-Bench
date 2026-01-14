@@ -1,5 +1,5 @@
 import click #type: ignore
-from Run_Task import return_status
+from cli.Run_Task import return_status
 
 
 @click.command("check_status")
@@ -14,3 +14,4 @@ def check_status(task_name):
 
 if __name__ == '__main__':
     check_status()
+
