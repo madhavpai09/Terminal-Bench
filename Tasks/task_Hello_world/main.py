@@ -1,16 +1,22 @@
-import subprocess
-import uuid
-import os
-import time
-import logging
 from typing import Optional
+from fastapi import FastAPI
+import subprocess
+import os
+import logging
 
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():       
+    return {"message": "Hello World"}
 
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     return result.stdout.strip(), result.stderr.strip() 
 
-
+@app.post("/run/{task_name}")
 def main(task_name, **kwargs): 
     logger = init_logger(task_name)
     run_id = kwargs.get('run_id', 'no-id')
@@ -26,7 +32,17 @@ def main(task_name, **kwargs):
     status = "verification_pending"
     kwargs['status'] = status
     logger.info(f"Status: {status}")
+    return status
 
+@app.post("/run/{task_name}/tests")
+def run_tests(task_name, **kwargs):
+    logger = init_logger(task_name)
+    run_id = kwargs.get('run_id', 'no-id')
+    
+    logger.info(f"Task: {task_name}")
+    logger.info(f"Run ID: {run_id}")
+    
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     tests_dir = os.path.join(base_dir, 'tests')
     command = f'cd {tests_dir} && python test1.py'
     run_command(command)

@@ -1,5 +1,7 @@
 import subprocess
 from time import sleep
+from pathlib import Path
+import os
 
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -7,10 +9,10 @@ def run_command(command):
     return result.stdout.strip(), result.stderr.strip()
 
 def main():
-    
-    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch hello.py && echo "print(\'Hellly, world!\')" > hello.py'
+    base_dir= os.path.dirname(os.path.abspath(__file__))
+    command = 'cd {base_dir}/results && touch hello.py && echo "print(\'Hellly, world!\')" > hello.py'
     run_command(command)
-    command = 'cd /Users/jmadhavpai/Desktop/Terminal-bench/Tasks/task_Hello_world/results && touch result.txt && python hello.py > result.txt'
+    command = 'cd {base_dir}/results && touch result.txt && python hello.py > result.txt'
     run_command(command)
 
 if __name__ == "__main__":

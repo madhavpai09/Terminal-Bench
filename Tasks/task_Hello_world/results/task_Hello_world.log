@@ -1,6 +1,7 @@
-2026-01-15 03:36:08,268 - INFO - Task: task_Hello_world
-2026-01-15 03:36:08,268 - INFO - Run ID: 875e2aa7-96a4-4d47-af58-f3cb1a10499a
-2026-01-15 03:36:08,293 - INFO - Status: verification_pending
-2026-01-15 03:36:08,312 - INFO - Status: test1_passed
-2026-01-15 03:36:08,331 - INFO - Status: test2_passed
-2026-01-15 03:36:08,350 - INFO - Status: Successfully Completed
+2026-01-15 10:53:55,329 - INFO - Task: task_Hello_world
+2026-01-15 10:53:55,329 - INFO - Run ID: no-id
+2026-01-15 10:53:55,402 - INFO - Status: verification_pending
+2026-01-15 10:53:55,502 - INFO - Shutting down
+2026-01-15 10:53:55,604 - INFO - Waiting for application shutdown.
+2026-01-15 10:53:55,606 - INFO - Application shutdown complete.
+2026-01-15 10:53:55,608 - INFO - Finished server process [96482]
