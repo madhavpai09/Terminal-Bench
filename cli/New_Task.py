@@ -7,14 +7,15 @@ from core.Task_creator import TaskCreate, main
 import click # type: ignore
 
 
-@click.command("invoke")
+@click.command("invoke_task")
 @click.option('--task_name', prompt='New Task Name', help='Name of the new task to create.')
 
 
-def invoke(task_name:Task_creator):
+def invoke_task(task_name:Task_creator):
     request = TaskCreate(task_name=task_name)
     main(task=request)
+    return task_name
 
 
 if __name__ == '__main__':
-    invoke()
+    invoke_task()

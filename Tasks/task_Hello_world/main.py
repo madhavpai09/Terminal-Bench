@@ -5,18 +5,11 @@ import os
 import logging
 
 
-app = FastAPI()
-
-
-@app.get("/")
-async def root():       
-    return {"message": "Hello World"}
-
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     return result.stdout.strip(), result.stderr.strip() 
 
-@app.post("/run/{task_name}")
+
 def main(task_name, **kwargs): 
     logger = init_logger(task_name)
     run_id = kwargs.get('run_id', 'no-id')
@@ -34,7 +27,7 @@ def main(task_name, **kwargs):
     logger.info(f"Status: {status}")
     return status
 
-@app.post("/run/{task_name}/tests")
+
 def run_tests(task_name, **kwargs):
     logger = init_logger(task_name)
     run_id = kwargs.get('run_id', 'no-id')

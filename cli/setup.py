@@ -25,6 +25,7 @@ def setup():
     child.sendline(task_name)
     child.expect(pexpect.EOF) 
     click.echo(child.before)
+    return task_name
 
 
 if __name__ == '__main__':
