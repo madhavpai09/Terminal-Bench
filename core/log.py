@@ -4,7 +4,11 @@ import os
 
 def main():
     task_name = input("Task Name:")
-    logging.basicConfig(level=logging.INFO,filename=os.path.join(os.getcwd(), "Tasks", task_name, "results", f"{task_name}.log"),filemode='w', format='%(asctime)s - %(levelname)s - %(message)s')
+    log_dir = os.path.join(os.getcwd(), "Tasks", task_name, "results")
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir, exist_ok=True)
+
+    logging.basicConfig(level=logging.INFO,filename=os.path.join(log_dir, f"{task_name}.log"),filemode='w', format='%(asctime)s - %(levelname)s - %(message)s')
  
     logger = logging.getLogger(task_name)
     
