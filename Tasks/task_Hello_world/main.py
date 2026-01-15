@@ -25,7 +25,9 @@ def main(task_name, **kwargs):
     status = "verification_pending"
     kwargs['status'] = status
     logger.info(f"Status: {status}")
-    return status
+
+    run_tests(task_name, **kwargs)
+
 
 
 def run_tests(task_name, **kwargs):
@@ -55,7 +57,6 @@ def run_tests(task_name, **kwargs):
     kwargs['status'] = status
     logger.info(f"Status: {status}")
 
-    return status
 
 
 def init_logger(task_name: str, log_level: Optional[int]=logging.INFO):
