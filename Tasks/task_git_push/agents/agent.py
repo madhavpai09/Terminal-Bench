@@ -2,13 +2,13 @@ import os
 import sys
 import subprocess
 import logging
+import jinja2
 
 def run_command(command):
     result = subprocess.run(command,shell=True,capture_output=True,text=True)
     return result.stdout.strip(), result.stderr.strip()
 
 def main():
-    # Go up 3 levels from agents/agent.py to get to the project root
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
     task_dir = os.path.dirname(os.path.abspath(__file__))
 

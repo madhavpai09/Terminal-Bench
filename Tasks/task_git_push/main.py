@@ -4,32 +4,17 @@ import pytest
 import logging
 from typing import Optional
 
-# Add the current directory and agents directory to sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 sys.path.append(os.path.join(current_dir, 'agents'))
-
-try:
-    from agents import agent
-except ImportError:
-    # Fallback if structure is slightly different
-    import agent
+from agents import agent
 
 def main(task_name, **kwargs):
-    print(f"--- Starting Task: {task_name} ---")
-    
-    # Initialize logger
-    init_logger(task_name)
-    
-    # 1. Run the Agent
-    print("\n[1/2] Running agent...")
+    logger = init_logger(task_name)
     agent.main()
-    
-    # 2. Run verification tests
-    print("\n[2/2] Running verification tests...")
+
     test_dir = os.path.join(current_dir, 'tests')
-    
-    # Run pytests and capture results
+
     retcode = pytest.main([
         "-v",
         os.path.join(test_dir, 'test_add.py'),
@@ -38,9 +23,9 @@ def main(task_name, **kwargs):
     ])
     
     if retcode == 0:
-        print("\nSUCCESS: All verification tests passed!")
+        logger.info("All verification tests passed!")
     else:
-        print(f"\nFAILURE: Tests failed with exit code {retcode}")
+        logger.info(f"Tests failedte")
 
 
 def init_logger(task_name: str, log_level: int = logging.INFO):
@@ -54,6 +39,7 @@ def init_logger(task_name: str, log_level: int = logging.INFO):
         format=('%(asctime)s - %(levelname)s - %(message)s'))
     logger = logging.getLogger(task_name)
     return logger
+
 
 if __name__ == "__main__":
     main("task_git_push")
