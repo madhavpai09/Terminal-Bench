@@ -2,7 +2,7 @@ import subprocess
 import os
 from typing import Optional
 from pydantic import BaseModel
-
+import jinja2
 
 class TaskCreate(BaseModel):
     task_name: str
@@ -26,11 +26,19 @@ def create_task_structure(task: TaskCreate, task_dir: str):
     os.makedirs(os.path.join(task_dir, 'solutions'), exist_ok=True)
     os.makedirs(os.path.join(task_dir, 'tests'), exist_ok=True)
     os.makedirs(os.path.join(task_dir, 'results'), exist_ok=True)
+    with open (os.path.join(task_dir, '__init__.py'), 'w'):
+        pass
     with open (os.path.join(task_dir, 'main.py'), 'w'):
         pass
     with open (os.path.join(task_dir, 'tasks.yaml'), 'w'):
         pass
 
+    template_dir = os.path.join(os.path.dirname(__file__),'templates')
+    env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+    template = env.get_template('main.jinja')
+    output = template.render(task_name=task.task_name)
+    with open(os.path.join(task_dir, 'main.py'), 'w') as f:
+        f.write(output)
 
 if __name__ == "__main__":
    main(task=TaskCreate(task_name="SampleTask"))

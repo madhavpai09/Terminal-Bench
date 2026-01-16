@@ -32,4 +32,4 @@ def setup_run():
 
 
 if __name__ == '__main__':
-    setup_run()
+    setup_run(standalone_mode=False)
