@@ -8,7 +8,8 @@ def run_command(command):
     return result.stdout.strip(), result.stderr.strip()
 
 def main():
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Go up 3 levels from agents/agent.py to get to the project root
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
     task_dir = os.path.dirname(os.path.abspath(__file__))
 
     command = f'cd {base_dir} && git add .'

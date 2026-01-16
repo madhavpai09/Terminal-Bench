@@ -3,4 +3,5 @@ fastapi
 requests
 pexpect
 uvicorn
+pytest
 
