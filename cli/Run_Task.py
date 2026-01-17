@@ -1,4 +1,4 @@
-import click  # type: ignore
+import argparse
 import sys
 from pathlib import Path
 import uuid
@@ -19,16 +19,24 @@ def return_status(task_name, **kwargs):
     return {"run_id": run_id, "status": status}
 
 
-@click.command("run_task")
-@click.option('--task_name', prompt='Task Name', help='Name of the task to run.')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Run a task')
+    parser.add_argument('--task_name', help='Name of the task to run.')
+    parser.add_argument('--venv_name', help='Name of the virtual environment (for task_venv_create).')
+    args = parser.parse_args()
 
+    task_name = args.task_name
+    if not task_name:
+        task_name = input('Task Name: ')
 
-def run_task(task_name, **kwargs):
+    kwargs = {}
+    if task_name == 'task_venv_create':
+        venv_name = args.venv_name
+        if not venv_name:
+            venv_name = input('venv_name: ')
+        kwargs['venv_name'] = venv_name
+
     res = return_status(task_name, **kwargs)
     client_main(task_name)
-    click.echo(f"Run ID: {res['run_id']}")
-    click.echo(f"Status: {res['status']}")
-
-
-if __name__ == '__main__':
-    run_task()
+    print(f"Run ID: {res['run_id']}")
+    print(f"Status: {res['status']}")

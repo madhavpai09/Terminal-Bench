@@ -20,7 +20,6 @@ def run_task_logic(task_name):
             child.expect(pexpect.EOF) 
             return child.before
         elif index == 1:
-            # Docker might have failed to start
             output = child.before
             raise Exception(f"Docker process terminated unexpectedly. Output: {output}")
         else:
