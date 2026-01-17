@@ -4,4 +4,5 @@ requests
 pexpect
 uvicorn
 pytest
+jinja2
 
