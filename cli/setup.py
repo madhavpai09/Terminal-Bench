@@ -10,11 +10,24 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 def run_task_logic(task_name):
     project_root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
     cmd = f"docker run --rm -it -v {project_root}:/app terminal_bench"
-    child = pexpect.spawn(cmd, encoding='utf-8')
-    child.expect('Task Name: ') 
-    child.sendline(task_name)
-    child.expect(pexpect.EOF) 
-    return child.before
+    try:
+        child = pexpect.spawn(cmd, encoding='utf-8', timeout=30)
+
+        index = child.expect(['Task Name: ', pexpect.EOF, pexpect.TIMEOUT])
+        
+        if index == 0:
+            child.sendline(task_name)
+            child.expect(pexpect.EOF) 
+            return child.before
+        elif index == 1:
+            # Docker might have failed to start
+            output = child.before
+            raise Exception(f"Docker process terminated unexpectedly. Output: {output}")
+        else:
+            raise Exception("Timed out waiting for 'Task Name: ' prompt from Docker container.")
+            
+    except pexpect.exceptions.ExceptionPexpect as e:
+        raise Exception(f"Failed to start/communicate with Docker: {str(e)}")
 
 @click.command("setup_run")
 def setup_run():

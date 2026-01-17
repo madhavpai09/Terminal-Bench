@@ -24,8 +24,11 @@ app.include_router(router)
 
 @app.post("/run/{task_name}")
 def run_task(task_name: str):
-    output = run_task_logic(task_name)
-    return {"message": "Task run finished", "output": output}
+    try:
+        output = run_task_logic(task_name)
+        return {"message": "Task run finished", "output": output}
+    except Exception as e:
+        return {"message": "Task run failed", "error": str(e)}, 500
 
 if __name__ == "__main__":
     import uvicorn
