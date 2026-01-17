@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 
 def run_command(command):
     result = subprocess.run(command,shell=True,capture_output=True)
@@ -12,4 +13,5 @@ def test_activation(venv_name):
     assert f"{venv_name}/bin/python" in res[0]
 
 if "__main__"==__name__:
-    test_activation()
+    venv_name = sys.argv[1]
+    test_activation(venv_name)

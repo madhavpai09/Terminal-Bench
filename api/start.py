@@ -11,6 +11,7 @@ class TaskRun(BaseModel):
     task_name: str
 
 app = FastAPI()
+
 @app.get("/")
 def root():
     return {"message": "Terminal Bench API"}

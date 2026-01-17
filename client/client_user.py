@@ -28,7 +28,6 @@ def send_request(
             raise Exception(f"{request_type} not supported")
         
         if not response.ok:
-            # If the response is not OK, it might be an error page or a structured JSON error
             try:
                 error_data = response.json()
                 return {"error": f"Request failed with status {response.status_code}", "details": error_data}

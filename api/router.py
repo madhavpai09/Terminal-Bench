@@ -7,7 +7,6 @@ sys.path.append("../")
 router = APIRouter()
 
 
-@router.get("/health")
+@router.get("/status")
 def health_check():
     return {"status": "ok"}
-
