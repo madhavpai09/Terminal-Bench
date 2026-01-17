@@ -1,13 +1,13 @@
 import requests
 from typing import Optional
 
-def create_request(task_name):
-    url = f"http://127.0.0.1:8000/create/{task_name}"
+def create_request(task_name:str):
+    url = f"http://127.0.0.1:8000/tasks/create/{task_name}"
     response = requests.post(url)
     return response.json()
                  
-def run_request(task_name):
-    url = f"http://127.0.0.1:8000/run/{task_name}"
+def run_request(task_name:str):
+    url = f"http://127.0.0.1:8000/tasks/run/{task_name}"
     response = requests.post(url)
     return response.json()
 
@@ -35,7 +35,7 @@ def send_request(
         try:
             return response.json()
         except requests.exceptions.JSONDecodeError:
-            return {"message": "Success (No JSON returned)", "text": response.text[:500]}
+            return {"message": "Success", "text": response.text[:500]}
             
     except Exception as e:
         return {"error": str(e)}

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api.task import tasks
+from api import task
 
 app = FastAPI()
 
@@ -7,8 +7,8 @@ app = FastAPI()
 def root():
     return {"message": "Terminal Bench API"}
 
-app.include_router(tasks.router)
 
+app.include_router(task.router)
 
 if __name__ == "__main__":
     import uvicorn
