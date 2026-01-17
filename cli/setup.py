@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def run_task_logic(task_name):
     project_root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-    cmd = f"docker run --rm -it -v {project_root}:/app terminal_bench"
+    cmd = f"docker run --rm -it -v {project_root}:/app terminal-bench"
     try:
         child = pexpect.spawn(cmd, encoding='utf-8', timeout=30)
 
@@ -31,7 +31,8 @@ def run_task_logic(task_name):
 @click.command("setup_run")
 def setup_run():
 
-    tasks_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'Tasks')
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    tasks_dir = os.path.join(base_dir,'app','data','Tasks')
     tasks = [d for d in os.listdir(tasks_dir) if os.path.isdir(os.path.join(tasks_dir, d))]
     click.echo("Available tasks:")
     for task in tasks:
@@ -44,4 +45,4 @@ def setup_run():
 
 
 if __name__ == '__main__':
-    setup_run(standalone_mode=False)
+    setup_run()

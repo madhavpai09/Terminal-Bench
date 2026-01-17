@@ -12,7 +12,7 @@ def run_request(task_name:str):
     return response.json()
 
 def send_request(
-    request_type: str, 
+    request_type: str,
     url_path: str, 
     params: Optional[dict] = None,
     body: Optional[dict] = None
