@@ -13,6 +13,18 @@ def taskset_run_request(taskset_name:str):
     return response.json()
 
 
+def add_task_request(taskset_name: str, task_name: str):
+    url = f"http://127.0.0.1:8000/tasksets/add/{taskset_name}/{task_name}"
+    response = requests.post(url)
+    return response.json()
+
+
+def import_csv_request(file_path: str):
+    url = f"http://127.0.0.1:8000/tasksets/import"
+    response = requests.post(url, json={"file_path": file_path})
+    return response.json()
+
+
 def task_run_request(task_name:str):
     url = f"http://127.0.0.1:8000/tasks/run/{task_name}"
     response = requests.post(url)

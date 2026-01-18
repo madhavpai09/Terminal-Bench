@@ -6,13 +6,13 @@ from typing import Optional
 import uuid
 import jinja2
 
-class Task(BaseModel):
-    task_name: str
-    description : Optional[str] = None
-
-    def __init__(self, task_create: TaskCreate):
-        self.task_name = task_create.name
-        self.description = task_create.description
+class Task:
+    def __init__(self, name: str, description: Optional[str] = None, complexity: Optional[str] = None, priority: Optional[str] = None, environment: Optional[str] = None):
+        self.task_name = name
+        self.description = description
+        self.complexity = complexity
+        self.priority = priority
+        self.environment = environment
 
     def run(self):
         run_id = str(uuid.uuid4())
@@ -34,20 +34,20 @@ class Task(BaseModel):
 
     @staticmethod
     def get(name: str):
-        return Task(task_create=TaskCreate(name=name))
+        return Task(name=name)
 
     @staticmethod
     def create(task : TaskCreate):
         app_dir =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        tasks_dir = os.path.join(app_dir, 'data', 'taskset', 'tasks')
+        tasks_dir = os.path.join(app_dir, 'data', 'taskset', task.taskset_name)
         task_dir = os.path.join(tasks_dir, task.name)
     
         os.makedirs(task_dir, exist_ok=True)
-        Task._create_task_structure(task, task_dir)
+        Task._create_task_structure(task, task_dir, task.taskset_name)
 
 
     @staticmethod
-    def _create_task_structure(task: TaskCreate, task_dir: str):
+    def _create_task_structure(task: TaskCreate, task_dir: str, taskset_name: str):
         os.makedirs(os.path.join(task_dir, 'agents'), exist_ok=True)
         os.makedirs(os.path.join(task_dir, 'solutions'), exist_ok=True)
         os.makedirs(os.path.join(task_dir, 'tests'), exist_ok=True)

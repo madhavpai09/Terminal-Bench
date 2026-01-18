@@ -1,8 +1,10 @@
 import os
-import sys 
-from pathlib import Path
+import sys
 from typing import Optional
+import pandas as pd
 from app.core.task import Task
+from client import client_user
+from models import model
 
 class TaskSet:
     def __init__(self, name: str):
@@ -17,9 +19,11 @@ class TaskSet:
         self.tasks.append(task)
     
 
-    def add_task(self, task: Task):
+    def add_task(self, task: Task, notify: bool = False):
         self._add_task(task)
         self.save_to_file()
+        if notify:
+            client_user.add_task_request(self.task_set_name, task.task_name)
 
 
     def run(self):
@@ -41,8 +45,31 @@ class TaskSet:
             for task in self.tasks:
                 f.write(task.task_name + '\n')
     
-    def import_taskset(self):
-        raise NotImplementedError()
+    def import_taskset(self, file_path: str):
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"CSV file not found: {file_path}")
+        
+        df = pd.read_csv(file_path)
+        for _, row in df.iterrows():
+            t_name = row['task_name']
+            t_desc = row.get('description', None)
+            t_complexity = row.get('complexity', None)
+            t_priority = row.get('priority', None)
+            t_environment = row.get('environment', None)    
+            
+            task_create = model.TaskCreate(
+                name=t_name,
+                taskset_name=self.task_set_name,
+                description=t_desc,
+                complexity=str(t_complexity) if t_complexity else None,
+                priority=t_priority,
+                environment=t_environment
+            )
+            Task.create(task_create)
+            
+            new_task = Task(name=t_name, description=t_desc, complexity=t_complexity, priority=t_priority, environment=t_environment)
+            self._add_task(new_task)
+        self.save_to_file()
 
     @staticmethod
     def create(taskset_create):
