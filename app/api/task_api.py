@@ -1,8 +1,12 @@
 import sys
 import os
 from fastapi import APIRouter
-base_dir=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(base_dir)
+
+# Ensure project root is in path
+base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if base_dir not in sys.path:
+    sys.path.append(base_dir)
+
 from models import model
 from app.core import task
 

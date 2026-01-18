@@ -32,6 +32,11 @@ class Task(BaseModel):
             "task_name": task_name
         }
 
+    @staticmethod
+    def get(name: str):
+        return Task(task_create=TaskCreate(name=name))
+
+    @staticmethod
     def create(task : TaskCreate):
         app_dir =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         tasks_dir = os.path.join(app_dir,'data','Tasks')

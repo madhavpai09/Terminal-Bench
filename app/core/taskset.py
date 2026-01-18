@@ -16,7 +16,7 @@ class TaskSet:
 
     def add_task(self, task: Task):
         self._add_task(task)
-        self.save_to_file()
+        self.save_to_file(self.task_set_name)
 
 
     def run(self):
@@ -36,4 +36,12 @@ class TaskSet:
                 f.write(task.task_name + '\n')
     
     def import_taskset(self):
-        return NotImplementedError
+        raise NotImplementedError()
+
+    @staticmethod
+    def create(taskset_create):
+        return TaskSet(taskset_create.name)
+
+    @staticmethod
+    def get(name: str):
+        return TaskSet(name)
