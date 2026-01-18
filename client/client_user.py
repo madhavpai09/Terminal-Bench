@@ -1,12 +1,17 @@
 import requests
 from typing import Optional
 
-def create_request(task_name:str):
-    url = f"http://127.0.0.1:8000/tasks/create/{task_name}"
+def taskset_create_request(taskset_name:str):
+    url = f"http://127.0.0.1:8000/tasksets/create/{taskset_name}"
+    response = requests.post(url)
+    return response.json()
+
+def taskset_run_request(taskset_name:str):
+    url  = f"http://127.0.0.1:8000/tasksets/run/{taskset_name}"
     response = requests.post(url)
     return response.json()
                  
-def run_request(task_name:str):
+def task_run_request(task_name:str):
     url = f"http://127.0.0.1:8000/tasks/run/{task_name}"
     response = requests.post(url)
     return response.json()

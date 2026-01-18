@@ -1,10 +1,10 @@
 import os
 import sys
-base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(base_dir)
 from models.model import TaskCreate
 from pydantic import BaseModel
 from typing import Optional
+import uuid
+import jinja2
 
 class Task(BaseModel):
     task_name: str
@@ -16,7 +16,7 @@ class Task(BaseModel):
 
     def run(self):
         run_id = str(uuid.uuid4())
-        kwargs['run_id'] = run_id
+        kwargs = {'run_id' : run_id}
         task_name = self.task_name
         
         task_module = __import__(f'{task_name}.main', fromlist=['main'])
@@ -35,10 +35,11 @@ class Task(BaseModel):
     def create(task : TaskCreate):
         app_dir =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         tasks_dir = os.path.join(app_dir,'data','Tasks')
-        task_dir = os.path.join(tasks_dir, task.task_name)
+        task_dir = os.path.join(tasks_dir, task.name)
     
         os.makedirs(task_dir, exist_ok=True)
         Task._create_task_structure(task, task_dir)
+
 
     @staticmethod
     def _create_task_structure(task: TaskCreate, task_dir: str):
@@ -56,6 +57,6 @@ class Task(BaseModel):
         template_dir = os.path.join(os.path.dirname(__file__),'templates')
         env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
         template = env.get_template('main.jinja')
-        output = template.render(task_name=task.task_name)
+        output = template.render(task_name=task.name)
         with open(os.path.join(task_dir, 'main.py'), 'w') as f:
             f.write(output)

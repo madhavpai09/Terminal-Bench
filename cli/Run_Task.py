@@ -25,7 +25,7 @@ def main():
         kwargs['venv_name'] = venv_name
     
     print(f"Running task '{task_name}'...")
-    result = client_user.run_request(task_name, **kwargs)
+    result = client_user.task_run_request(task_name, **kwargs)
     
     if 'error' in result:
         print(f" {result['error']}")

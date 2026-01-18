@@ -1,7 +1,7 @@
 import os
 import sys 
 from pathlib import Path
-from task import Task
+from app.core.task import Task
 
 class TaskSet:
     def __init__(self, task_set_name: str):
@@ -13,13 +13,16 @@ class TaskSet:
     def _add_task(self, task: Task):
         self.tasks.append(task)
     
+
     def add_task(self, task: Task):
         self._add_task(task)
         self.save_to_file()
 
+
     def run(self):
         for task in self.tasks:
             task.run()
+
 
     def load_from_file(self, file_path: str):
         with open(file_path, 'r') as f:
@@ -34,4 +37,3 @@ class TaskSet:
     
     def import_taskset(self):
         return NotImplementedError
-
