@@ -4,7 +4,8 @@ from fastapi import APIRouter
 base_dir=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(base_dir)
 from models import models
-from core import Task_creator, Task_runner 
+from app.core import Task_creator, Task_runner 
+from app.core.task import Task
 
 router = APIRouter(prefix="/tasks")
 
@@ -12,8 +13,8 @@ router = APIRouter(prefix="/tasks")
 @router.post("/create/{task_name}")
 def create_task(task_name: str):
     task_create = models.TaskCreate(task_name=task_name)
-    Task_creator.main(task=task_create)
-
+    task = Task(task_create)
+    task.create()
     return {"message": "Task created successfully"}
 
 @router.post("/run/{task_name}")

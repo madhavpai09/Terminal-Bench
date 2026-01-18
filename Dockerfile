@@ -2,8 +2,14 @@ FROM python:3.12.7
 
 WORKDIR /app
 
-COPY . .
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENTRYPOINT ["python", "-m", "cli.Run_Task.py"]
+COPY . .
+
+EXPOSE 8000
+
+ENV PYTHONPATH=/app:/app/app
+
+CMD ["python3", "cli/setup.py"]
