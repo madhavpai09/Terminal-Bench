@@ -1,14 +1,17 @@
 import os
 import sys 
 from pathlib import Path
+from typing import Optional
 from app.core.task import Task
 
 class TaskSet:
-    def __init__(self, task_set_name: str):
-        self.task_set_name = task_set_name
-        if os.path.exists(task_set_name):
-            self.load_from_file(task_set_name)
+    def __init__(self, name: str):
+        self.task_set_name = name
+        self.base_dir = os.path.join(self._get_tasksets_dir(), name)
+        self.tasks_file = os.path.join(self.base_dir, 'tasks.txt')
         self.tasks = []
+        if os.path.exists(self.tasks_file):
+            self.load_from_file(self.tasks_file)
 
     def _add_task(self, task: Task):
         self.tasks.append(task)
@@ -16,7 +19,7 @@ class TaskSet:
 
     def add_task(self, task: Task):
         self._add_task(task)
-        self.save_to_file(self.task_set_name)
+        self.save_to_file()
 
 
     def run(self):
@@ -30,7 +33,10 @@ class TaskSet:
             for task in tasks:
                 self._add_task(Task(task))
 
-    def save_to_file(self, file_path: str):
+    def save_to_file(self, file_path: Optional[str] = None):
+        if file_path is None:
+            file_path = self.tasks_file
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as f:
             for task in self.tasks:
                 f.write(task.task_name + '\n')
@@ -40,8 +46,18 @@ class TaskSet:
 
     @staticmethod
     def create(taskset_create):
-        return TaskSet(taskset_create.name)
+        taskset = TaskSet(taskset_create.name)
+        os.makedirs(taskset.base_dir, exist_ok=True)
+        taskset.save_to_file()
+        return taskset
 
     @staticmethod
     def get(name: str):
         return TaskSet(name)
+
+    @staticmethod
+    def _get_tasksets_dir():
+        app_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        tasksets_dir = os.path.join(app_dir, 'data', 'taskset')
+        os.makedirs(tasksets_dir, exist_ok=True)
+        return tasksets_dir

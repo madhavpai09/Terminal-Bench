@@ -39,7 +39,7 @@ class Task(BaseModel):
     @staticmethod
     def create(task : TaskCreate):
         app_dir =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        tasks_dir = os.path.join(app_dir,'data','Tasks')
+        tasks_dir = os.path.join(app_dir, 'data', 'taskset', 'tasks')
         task_dir = os.path.join(tasks_dir, task.name)
     
         os.makedirs(task_dir, exist_ok=True)

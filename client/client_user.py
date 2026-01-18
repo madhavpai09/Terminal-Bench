@@ -6,15 +6,24 @@ def taskset_create_request(taskset_name:str):
     response = requests.post(url)
     return response.json()
 
+
 def taskset_run_request(taskset_name:str):
     url  = f"http://127.0.0.1:8000/tasksets/run/{taskset_name}"
     response = requests.post(url)
     return response.json()
-                 
+
+
 def task_run_request(task_name:str):
     url = f"http://127.0.0.1:8000/tasks/run/{task_name}"
     response = requests.post(url)
     return response.json()
+
+
+def task_create_request(task_create_data: dict):
+    url = "http://127.0.0.1:8000/tasks/create"
+    response = requests.post(url, json=task_create_data)
+    return response.json()
+
 
 def send_request(
     request_type: str,
