@@ -7,8 +7,9 @@ import uuid
 import jinja2
 
 class Task:
-    def __init__(self, name: str, description: Optional[str] = None, complexity: Optional[str] = None, priority: Optional[str] = None, environment: Optional[str] = None):
+    def __init__(self, name: str,instruction: str,description: Optional[str] = None, complexity: Optional[str] = None, priority: Optional[str] = None, environment: Optional[str] = None):
         self.task_name = name
+        self.instruction = instruction
         self.description = description
         self.complexity = complexity
         self.priority = priority
@@ -56,8 +57,12 @@ class Task:
             pass
         with open (os.path.join(task_dir, 'main.py'), 'w'):
             pass
-        with open (os.path.join(task_dir, 'tasks.yaml'), 'w'):
-            pass
+        with open (os.path.join(task_dir, 'tasks.yaml'), 'w') as f:
+            f.write(f"instructions:  \\n/t {task.instruction}\\n")
+            f.write(f"description:  \\n/t {task.description}\\n")
+            f.write(f"complexity:  \\n/t {task.complexity}\\n")
+            f.write(f"priority:  \\n/t {task.priority}\\n")
+            f.write(f"environment:  \\n/t {task.environment}\\n") 
 
         template_dir = os.path.join(os.path.dirname(__file__),'templates')
         env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))

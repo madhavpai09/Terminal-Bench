@@ -1,4 +1,4 @@
-task_name,description,complexity,priority,environment
-task1,Description for task 1,1,easy,path
-task2,Description for task 2,2,medium,path
-task3,Description for task 3,3,easy,path
+task_name,instruction,description,complexity,priority,environment
+task1,instruction1,Description1,easy,1,path
+task2,instruction2,Description2,medium,2,path
+task3,instruction3,Description3,easy,3,path
