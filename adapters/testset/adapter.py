@@ -29,7 +29,15 @@ class TestsetAdapter(TaskSet):
         for i, row in df.iterrows():
             task_create = self._map_row_to_task_create(row)
             Task.create(task_create)
-            self._add_task(task_create)
+            new_task = Task(
+                name=task_create.name,
+                instruction=task_create.instruction,
+                description=task_create.description,
+                complexity=task_create.complexity,
+                priority=task_create.priority,
+                environment=task_create.environment
+            )
+            self._add_task(new_task)
         self.save_to_file()
 
 if __name__ == '__main__':

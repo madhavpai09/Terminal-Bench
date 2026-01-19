@@ -1,9 +1,11 @@
 import pandas as pd
 import os
 import sys
-from models import model
+
 base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(base_path)
+
+from models import model
 from app.core.taskset import TaskSet
 from app.core.task import Task
 from models.model import Complexity, Priority
@@ -64,6 +66,7 @@ class LeetcodeAdapter(TaskSet):
         for i, row in df.iterrows():
             task_create = self._map_row_to_task_create(row)
             Task.create(task_create)
+            
             new_task = Task(
                 name=task_create.name,
                 instruction=task_create.instruction,
@@ -75,6 +78,7 @@ class LeetcodeAdapter(TaskSet):
             self._add_task(new_task)
         self.save_to_file()
 
+
 if __name__ == '__main__':
     adapter = LeetcodeAdapter('new_leetcode_set')
     dataset = model.Dataset(
@@ -84,4 +88,7 @@ if __name__ == '__main__':
             split="test"
         )
     )
+    
     adapter.import_taskset(dataset)
+    adapter.save_to_file()
+
