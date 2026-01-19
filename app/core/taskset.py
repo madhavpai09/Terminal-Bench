@@ -1,7 +1,6 @@
 import os
 import sys
-from typing import Optional
-import pandas 
+from typing import Optional 
 from app.core.task import Task
 from client import client_user
 from models import model
@@ -30,7 +29,6 @@ class TaskSet:
         for task in self.tasks:
             task.run()
 
-
     def load_from_file(self, file_path: str):
         with open(file_path, 'r') as f:
             tasks = f.read().splitlines()
@@ -46,32 +44,7 @@ class TaskSet:
                 f.write(task.task_name + '\n')
     
     def import_taskset(self, file_path: str):
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"CSV file not found: {file_path}")
-        
-        df = pandas.read_csv(file_path)
-        for i, row in df.iterrows():
-            t_name = row['task_name']
-            t_instruct= row.get('instruction', None)
-            t_desc = row.get('description', None)
-            t_complexity = row.get('complexity', None)
-            t_priority = row.get('priority', None),
-            t_env = row.get('environment', None)    
-            
-            task_create = model.TaskCreate(
-                name=t_name,
-                taskset_name=self.task_set_name,
-                instruction=t_instruct,
-                description=t_desc,
-                complexity=str(t_complexity),
-                priority=str(t_priority),
-                environment=t_env
-            )
-            Task.create(task_create)
-            
-            new_task = Task(name=t_name, instruction=t_instruct, description=t_desc, complexity=t_complexity, priority=t_priority, environment=t_env)
-            self._add_task(new_task)
-        self.save_to_file()
+        return NotImplementedError
 
     @staticmethod
     def create(taskset_create):

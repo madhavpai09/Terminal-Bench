@@ -11,7 +11,7 @@ from client import client_user
 @click.command("import_csv")
 @click.option("--file", help="Path to the CSV file", prompt="filename")
 def import_csv(file):
-    result = client_user.import_csv_request(os.path.abspath(file))
+    result = client_user.import_csv_request(file)
     if "error" in result:
         click.secho(f"Error: {result['error']}")
     else:

@@ -7,4 +7,5 @@ pytest
 jinja2
 pandas
 openpyxl
+datasets
 
