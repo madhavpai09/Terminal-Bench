@@ -67,7 +67,7 @@ class Task:
 
         sys.path.append(os.path.join(task_dir,'tests'))
         with open(os.path.join(task_dir, 'verify.py'), 'w') as f:
-            f.write(task.golden_sol)
+            f.write(task.golden_sol["code"])
 
         template_dir = os.path.join(os.path.dirname(__file__),'templates')
         env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
