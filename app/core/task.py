@@ -8,13 +8,16 @@ import jinja2
 import importlib
 
 class Task:
-    def __init__(self, name: str, instruction: str = "No instruction provided", description: Optional[str] = None, complexity: Optional[str] = None, priority: Optional[str] = None, environment: Optional[str] = None):
+    def __init__(self, id:str, name: str, instruction: str = "No instruction provided", description: Optional[str] = None, complexity: Optional[str] = None, priority: Optional[str] = None, environment: Optional[str] = None, metadata: Optional[dict] = None):
+        self.id = id
         self.task_name = name
         self.instruction = instruction
         self.description = description
         self.complexity = complexity
         self.priority = priority
         self.environment = environment
+        self.metadata = metadata
+    
 
     def run(self):
         run_id = str(uuid.uuid4())
@@ -64,10 +67,16 @@ class Task:
             f.write(f"complexity:  \n/t {task.complexity}\n")
             f.write(f"priority:  \n/t {task.priority}\n")
             f.write(f"environment:  \n/t {task.environment}\n") 
-
-        sys.path.append(os.path.join(task_dir,'tests'))
-        with open(os.path.join(task_dir, 'verify.py'), 'w') as f:
-            f.write(task.golden_sol["code"])
+        
+        if task.metadata.get("golden_solution"):
+            sys.path.append(os.path.join(task_dir,'tests'))
+            with open(os.path.join(task_dir, 'verify.py'), 'w') as f:
+                f.write(task.metadata["golden_solution"]["code"])
+        
+        if task.metadata.get("sample_solution"):
+            sys.path.append(os.path.join(task_dir,'solutions'))
+            with open(os.path.join(task_dir, 'solution.py'), 'w') as f:
+                f.write(task.metadata["sample_solution"]["code"])
 
         template_dir = os.path.join(os.path.dirname(__file__),'templates')
         env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))

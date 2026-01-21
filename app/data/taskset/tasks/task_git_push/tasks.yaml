@@ -1,5 +1,5 @@
 instructions : |-
-    push thechnages from the local repository to the remote repository by doing the following steps:
+    push the chnages from the local repository to the remote repository by doing the following steps:
     - git add .
     - git commit -m "{{commit_comment}}"
     - git push origin main
