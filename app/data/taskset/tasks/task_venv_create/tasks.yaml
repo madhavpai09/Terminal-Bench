@@ -1,7 +1,0 @@
-instructions: |-
-    - create a virtual environment
-    - activate the virtual environment
-    - download dependencies from requirements.txt
-    - deactivate the virtual environment if told to 
-
-author: jmadhavpai
