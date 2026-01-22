@@ -67,7 +67,7 @@ class Task:
             f.write(f"complexity:  \n/t {task.complexity}\n")
             f.write(f"priority:  \n/t {task.priority}\n")
             f.write(f"environment:  \n/t {task.environment}\n") 
-        
+            
         if task.metadata.get("golden_solution"):
             sys.path.append(os.path.join(task_dir,'tests'))
             with open(os.path.join(task_dir, 'verify.py'), 'w') as f:

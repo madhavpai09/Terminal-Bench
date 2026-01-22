@@ -1,8 +1,9 @@
 import git
 import os
-import sys
-base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-clone_dir = os.path.join(base_path, "environment", "src")
-def git_clone(repo_url):
-    git.Repo.clone_from(repo_url, clone_dir)
+
+def clone_and_checkout(repo_url, target_dir, commit_hash):    
+    os.makedirs(target_dir, exist_ok=True)
+
+    repo = git.Repo.clone_from(repo_url, target_dir)
+    repo.git.checkout(commit_hash)
 
