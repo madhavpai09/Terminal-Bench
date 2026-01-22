@@ -48,7 +48,6 @@ class SWEBenchAdapter(TaskSet):
             repo_url = f"https://github.com/{repo_name}"
             target_dir = os.path.join(src_path, repo_name)
             
-            print(f"Ensuring clone for {repo_name} at {target_dir}...")
             gitapi.gitclone(repo_url, target_dir)
             repo_paths[repo_name] = target_dir
 
@@ -79,6 +78,7 @@ class SWEBenchAdapter(TaskSet):
             self._generate_agent_py(task_create.name, base_commit, repo_local_path)
             
         self.save_to_file()
+        
 
     def _generate_agent_py(self, task_name, base_commit, repo_path):
         project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
