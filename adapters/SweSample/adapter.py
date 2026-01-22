@@ -41,19 +41,29 @@ class SWEBenchAdapter(TaskSet):
         
         src_path = os.path.join(base_path, "environment", "src")
         
+        unique_repos = df['repo'].unique()
+        repo_paths = {}
+        
+        for repo_name in unique_repos:
+            repo_url = f"https://github.com/{repo_name}"
+            target_dir = os.path.join(src_path, repo_name)
+            
+            print(f"Ensuring clone for {repo_name} at {target_dir}...")
+            gitapi.gitclone(repo_url, target_dir)
+            repo_paths[repo_name] = target_dir
+
         for i, row in df.iterrows():
             instance_id = row.get("instance_id")
             repo_name = row.get("repo")
             base_commit = row.get("base_commit")
             
-            repo_url = f"https://github.com/{repo_name}"
-            target_dir = os.path.join(src_path, instance_id)
+            repo_local_path = repo_paths.get(repo_name)
             
-            print(f"Cloning {repo_name} to {target_dir}...")
-            gitapi.clone_and_checkout(repo_url, target_dir, base_commit)
-
+            task_name = instance_id 
+            
             task_create = self._map_row_to_task_create(row)
-            task_create.metadata["local_repo_path"] = target_dir
+            task_create.name = task_name
+            task_create.metadata["local_repo_path"] = repo_local_path
             
             Task.create(task_create)
             
@@ -63,10 +73,36 @@ class SWEBenchAdapter(TaskSet):
                 instruction=task_create.instruction,
                 complexity=task_create.complexity,
                 metadata=task_create.metadata
-
             )
             self._add_task(new_task)
+            
+            self._generate_agent_py(task_create.name, base_commit, repo_local_path)
+            
         self.save_to_file()
+
+    def _generate_agent_py(self, task_name, base_commit, repo_path):
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        task_dir = os.path.join(project_root, 'app', 'data', 'taskset', self.task_set_name, task_name)
+        agent_path = os.path.join(task_dir, 'agents', 'agent.py')
+        
+        agent_content = f"""import git
+import os
+
+def main():
+    repo_path = "{repo_path}"
+    repo = git.Repo(repo_path)
+    try:
+        repo.git.checkout('{base_commit}')
+        print(f"Checked out {base_commit}")
+    except Exception as e:
+        print(f"Failed to check out {base_commit}: {{e}}")
+
+if __name__ == "__main__":
+    main()
+"""
+        os.makedirs(os.path.dirname(agent_path), exist_ok=True)
+        with open(agent_path, 'w') as f:
+            f.write(agent_content)
 
 
 if __name__ == '__main__':

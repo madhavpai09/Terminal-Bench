@@ -1,0 +1,14 @@
+import git
+import os
+
+def main():
+    repo_path = "/Users/jmadhavpai/Desktop/Terminal-bench/environment/src/psf/requests"
+    repo = git.Repo(repo_path)
+    try:
+        repo.git.checkout('1ba83c47ce7b177efe90d5f51f7760680f72eda0')
+        print(f"Checked out 1ba83c47ce7b177efe90d5f51f7760680f72eda0")
+    except Exception as e:
+        print(f"Failed to check out 1ba83c47ce7b177efe90d5f51f7760680f72eda0: {e}")
+
+if __name__ == "__main__":
+    main()

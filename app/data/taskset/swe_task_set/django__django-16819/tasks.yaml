@@ -1,0 +1,14 @@
+instructions:  
+/t Reduce Add/RemoveIndex migration operations.
+Description
+	
+We should reduce AddIndex/RemoveIndex operations when optimizing migration operations.
+
+description:  
+/t None
+complexity:  
+/t 15 min - 1 hour
+priority:  
+/t None
+environment:  
+/t None

@@ -19,9 +19,9 @@ class BrowseCompAdapter(TaskSet):
         )
         
 
-    def import_webdata(self, dataset: model.Dataset):
-        
-        continue
+    def import_taskset(self, dataset: model.Dataset):
+       continue
+
 
 if __name__ == '__main__':
     adapter = BrowseCompAdapter('browsecompSample')

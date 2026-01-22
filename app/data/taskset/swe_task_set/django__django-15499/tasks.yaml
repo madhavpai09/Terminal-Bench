@@ -1,0 +1,14 @@
+instructions:  
+/t Optimize CreateModel + AlterModelManagers to CreateModel
+Description
+	
+During migration optimization, CreateModel + AlterModelOptions is reduced to just CreateModel, with the model options. Similarly, CreateModel + AlterModelManagers can become just CreateModel.
+
+description:  
+/t None
+complexity:  
+/t <15 min fix
+priority:  
+/t None
+environment:  
+/t None

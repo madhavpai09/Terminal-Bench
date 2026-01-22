@@ -33,7 +33,7 @@ class TaskSet:
         with open(file_path, 'r') as f:
             tasks = f.read().splitlines()
             for task in tasks:
-                self._add_task(Task(task))
+                self._add_task(Task(id=task, name=task))
 
     def save_to_file(self, file_path: Optional[str] = None):
         if file_path is None:
